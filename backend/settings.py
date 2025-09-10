@@ -121,6 +121,8 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=int(os.getenv('ACCESS_TTL_MIN', 15))),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=int(os.getenv('REFRESH_TTL_DAYS', 7))),
+    'AUTH_HEADER_TYPES': ('Bearer',),  # <- ça
+
 }
 
 # Password validation
