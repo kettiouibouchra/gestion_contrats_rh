@@ -1,4 +1,5 @@
 from rest_framework import viewsets, permissions
+from rest_framework.parsers import MultiPartParser, FormParser
 from .models import Contrat
 from .serializers import ContratSerializer
 
@@ -8,6 +9,7 @@ class IsRH(permissions.BasePermission):
 
 class ContratViewSet(viewsets.ModelViewSet):
     serializer_class = ContratSerializer
+    parser_classes = [MultiPartParser, FormParser]  # <--- Ajout pour upload fichier
 
     def get_queryset(self):
         user = self.request.user
@@ -25,4 +27,4 @@ class ContratViewSet(viewsets.ModelViewSet):
         if self.action in ['create', 'update', 'partial_update', 'destroy']:
             return [IsRH()]
         return [permissions.IsAuthenticated()]
-
+    
