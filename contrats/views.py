@@ -5,7 +5,11 @@ from .serializers import ContratSerializer
 
 class IsRH(permissions.BasePermission):
     def has_permission(self, request, view):
-        return bool(request.user and request.user.is_authenticated and request.user.role == 'rh')
+        return bool(
+            request.user 
+            and request.user.is_authenticated 
+            and request.user.role == 'rh'
+        )
 
 class ContratViewSet(viewsets.ModelViewSet):
     serializer_class = ContratSerializer
@@ -14,6 +18,8 @@ class ContratViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         qs = Contrat.objects.select_related('employe')
+        if not user.is_authenticated:
+            return Contrat.objects.none()  # sécurité supplémentaire
         if user.role == 'rh':
             return qs
         if user.role == 'manager':

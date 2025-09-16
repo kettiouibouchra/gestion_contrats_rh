@@ -121,6 +121,8 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=int(os.getenv('ACCESS_TTL_MIN', 15))),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=int(os.getenv('REFRESH_TTL_DAYS', 7))),
+    'AUTH_HEADER_TYPES': ('Bearer',),  # <- ça
+
 }
 
 # Password validation
@@ -164,7 +166,7 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',') if os.getenv('CORS_ALLOWED_ORIGINS') else []
-
+CORS_ALLOW_ALL_ORIGINS = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 STATIC_URL = '/static/'
